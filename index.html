@@ -298,7 +298,7 @@
   }
 }
 
-    function startReview() {
+   function startReview() {
   if (wrongQuestions.length === 0) {
     alert("全問正解！復習は不要です👏");
     return;
@@ -307,18 +307,20 @@
   isReviewMode = true;
   currentQuestionIndex = 0;
 
-  // 問題を間違えたものに入れ替え
+  const reviewQuestions = [...wrongQuestions];
+  wrongQuestions = [];
+
   questions.length = 0;
-  wrongQuestions.forEach(q => questions.push(q));
+  reviewQuestions.forEach(q => questions.push(q));
 
   score = 0;
   answerBtn.style.display = "block";
   scoreEl.innerHTML = "";
+  answerBtn.textContent = "回答する";
+  answerBtn.onclick = submitAnswer;
 
   renderQuestion();
 }
-answerBtn.onclick = submitAnswer;
-renderQuestion();
     
   </script>
 </body>
