@@ -221,6 +221,9 @@
     let selectedChoice = null;
     let score = 0;
 
+    let wrongQuestions = [];
+    let isReviewMode = false;
+
     const progressEl = document.getElementById("progress");
     const questionEl = document.getElementById("question");
     const choicesEl = document.getElementById("choices");
@@ -262,35 +265,59 @@
     }
 
     function submitAnswer() {
-      const q = questions[currentQuestionIndex];
-      const isCorrect = selectedChoice === q.correct;
+  const q = questions[currentQuestionIndex];
+  const isCorrect = selectedChoice === q.correct;
 
-      if (isCorrect) {
-        score++;
-      }
+  if (isCorrect) {
+    score++;
+  } else {
+    wrongQuestions.push(q);
+  }
 
-      resultEl.innerHTML = `
-        <p><strong>${isCorrect ? "正解！" : "不正解"}</strong></p>
-        <p>正しい答え：${q.correct}</p>
-        <p>${q.explanation}</p>
-      `;
+  resultEl.innerHTML = `
+    <p><strong>${isCorrect ? "正解！" : "不正解"}</strong></p>
+    <p>正しい答え：${q.correct}</p>
+    <p>${q.explanation}</p>
+  `;
 
-      if (currentQuestionIndex < questions.length - 1) {
-        answerBtn.textContent = "次の問題へ";
-        answerBtn.onclick = function () {
-          currentQuestionIndex++;
-          answerBtn.textContent = "回答する";
-          answerBtn.onclick = submitAnswer;
-          renderQuestion();
-        };
-      } else {
-        answerBtn.style.display = "none";
-        scoreEl.textContent = `終了！10問中 ${score} 問正解でした。`;
-      }
-    }
+  if (currentQuestionIndex < questions.length - 1) {
+    answerBtn.textContent = "次の問題へ";
+    answerBtn.onclick = function () {
+      currentQuestionIndex++;
+      answerBtn.textContent = "回答する";
+      answerBtn.onclick = submitAnswer;
+      renderQuestion();
+    };
+  } else {
+    answerBtn.style.display = "none";
 
-    answerBtn.onclick = submitAnswer;
-    renderQuestion();
+    scoreEl.innerHTML = `
+      終了！${questions.length}問中 ${score}問正解<br><br>
+      <button onclick="startReview()">間違えた問題を復習する</button>
+    `;
+  }
+}
+
+    function startReview() {
+  if (wrongQuestions.length === 0) {
+    alert("全問正解！復習は不要です👏");
+    return;
+  }
+
+  isReviewMode = true;
+  currentQuestionIndex = 0;
+
+  // 問題を間違えたものに入れ替え
+  questions.length = 0;
+  wrongQuestions.forEach(q => questions.push(q));
+
+  score = 0;
+  answerBtn.style.display = "block";
+  scoreEl.innerHTML = "";
+
+  renderQuestion();
+}
+  
   </script>
 </body>
 </html>
