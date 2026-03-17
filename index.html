@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ミニ簿記アプリ</title>
+</head>
+<body>
+  <h1>仕訳問題</h1>
+  <p>商品100円を現金で仕入れた</p>
+
+  <button onclick="answer(true)">仕入 / 現金</button>
+  <button onclick="answer(false)">現金 / 仕入</button>
+
+  <p id="result"></p>
+
+  <script>
+    function answer(isCorrect) {
+      const result = document.getElementById("result");
+      if (isCorrect) {
+        result.innerText = "正解！";
+      } else {
+        result.innerText = "不正解";
+      }
+    }
+  </script>
+</body>
+</html>
