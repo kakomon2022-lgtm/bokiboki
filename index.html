@@ -229,23 +229,26 @@
     const scoreEl = document.getElementById("score");
 
     function renderQuestion() {
-      const q = questions[currentQuestionIndex];
-      selectedChoice = null;
-      answerBtn.disabled = true;
-      resultEl.innerHTML = "";
+  const q = questions[currentQuestionIndex];
 
-      progressEl.textContent = `問題 ${currentQuestionIndex + 1} / ${questions.length}`;
-      questionEl.textContent = q.text;
-      choicesEl.innerHTML = "";
+  const shuffledChoices = [...q.choices].sort(() => Math.random() - 0.5);
 
-      q.choices.forEach(choice => {
-        const button = document.createElement("button");
-        button.textContent = choice;
-        button.className = "choice-btn";
-        button.onclick = () => selectChoice(button, choice);
-        choicesEl.appendChild(button);
-      });
-    }
+  selectedChoice = null;
+  answerBtn.disabled = true;
+  resultEl.innerHTML = "";
+
+  progressEl.textContent = `問題 ${currentQuestionIndex + 1} / ${questions.length}`;
+  questionEl.textContent = q.text;
+  choicesEl.innerHTML = "";
+
+  shuffledChoices.forEach(choice => {
+    const button = document.createElement("button");
+    button.textContent = choice;
+    button.className = "choice-btn";
+    button.onclick = () => selectChoice(button, choice);
+    choicesEl.appendChild(button);
+  });
+}
 
     function selectChoice(button, choice) {
       selectedChoice = choice;
