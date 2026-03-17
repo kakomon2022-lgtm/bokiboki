@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>簿記10問チャレンジ</title>
+  <title>簿記10問チャレンジ 4択版</title>
   <style>
     body {
       font-family: sans-serif;
@@ -13,7 +13,7 @@
     }
 
     .app {
-      max-width: 600px;
+      max-width: 680px;
       margin: 0 auto;
       background: white;
       padding: 24px;
@@ -34,6 +34,7 @@
     #question {
       font-size: 20px;
       margin-bottom: 20px;
+      line-height: 1.6;
     }
 
     .choice-btn, .action-btn {
@@ -45,6 +46,7 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
+      text-align: left;
     }
 
     .choice-btn {
@@ -63,6 +65,7 @@
       background: #4f46e5;
       color: white;
       margin-top: 16px;
+      text-align: center;
     }
 
     .action-btn:hover {
@@ -79,17 +82,19 @@
       padding: 16px;
       border-radius: 10px;
       background: #f8fafc;
+      line-height: 1.7;
     }
 
     #score {
       font-weight: bold;
       margin-top: 16px;
+      font-size: 18px;
     }
   </style>
 </head>
 <body>
   <div class="app">
-    <h1>簿記10問チャレンジ</h1>
+    <h1>簿記10問チャレンジ 4択版</h1>
     <p id="progress"></p>
     <div id="question"></div>
     <div id="choices"></div>
@@ -102,61 +107,111 @@
     const questions = [
       {
         text: "商品100円を現金で仕入れた。",
-        choices: ["仕入 / 現金", "現金 / 仕入"],
+        choices: [
+          "仕入 / 現金",
+          "現金 / 仕入",
+          "備品 / 現金",
+          "仕入 / 買掛金"
+        ],
         correct: "仕入 / 現金",
         explanation: "商品を仕入れたので費用の『仕入』が増加し借方、現金が減少するので貸方。"
       },
       {
         text: "商品200円を掛けで販売した。",
-        choices: ["売掛金 / 売上", "売上 / 売掛金"],
+        choices: [
+          "売掛金 / 売上",
+          "売上 / 売掛金",
+          "現金 / 売上",
+          "売掛金 / 仕入"
+        ],
         correct: "売掛金 / 売上",
         explanation: "掛け販売なので売掛金が増加して借方、売上は収益なので貸方。"
       },
       {
         text: "家賃50円を現金で支払った。",
-        choices: ["地代家賃 / 現金", "現金 / 地代家賃"],
+        choices: [
+          "地代家賃 / 現金",
+          "現金 / 地代家賃",
+          "支払家賃 / 売掛金",
+          "備品 / 現金"
+        ],
         correct: "地代家賃 / 現金",
         explanation: "家賃は費用なので借方、現金が減るので貸方。"
       },
       {
         text: "備品300円を現金で購入した。",
-        choices: ["備品 / 現金", "現金 / 備品"],
+        choices: [
+          "備品 / 現金",
+          "現金 / 備品",
+          "仕入 / 現金",
+          "備品 / 買掛金"
+        ],
         correct: "備品 / 現金",
         explanation: "備品という資産が増えるので借方、現金が減るので貸方。"
       },
       {
         text: "借入金100円を現金で返済した。",
-        choices: ["借入金 / 現金", "現金 / 借入金"],
+        choices: [
+          "借入金 / 現金",
+          "現金 / 借入金",
+          "支払利息 / 現金",
+          "借入金 / 売掛金"
+        ],
         correct: "借入金 / 現金",
         explanation: "借入金という負債が減少するので借方、現金が減るので貸方。"
       },
       {
         text: "利息10円を現金で受け取った。",
-        choices: ["現金 / 受取利息", "受取利息 / 現金"],
+        choices: [
+          "現金 / 受取利息",
+          "受取利息 / 現金",
+          "現金 / 支払利息",
+          "売掛金 / 受取利息"
+        ],
         correct: "現金 / 受取利息",
         explanation: "現金が増えるので借方、受取利息は収益なので貸方。"
       },
       {
         text: "給料80円を現金で支払った。",
-        choices: ["給与 / 現金", "現金 / 給与"],
+        choices: [
+          "給与 / 現金",
+          "現金 / 給与",
+          "給料 / 売掛金",
+          "仕入 / 現金"
+        ],
         correct: "給与 / 現金",
         explanation: "給与は費用なので借方、現金が減るので貸方。"
       },
       {
         text: "商品150円を掛けで仕入れた。",
-        choices: ["仕入 / 買掛金", "買掛金 / 仕入"],
+        choices: [
+          "仕入 / 買掛金",
+          "買掛金 / 仕入",
+          "仕入 / 現金",
+          "備品 / 買掛金"
+        ],
         correct: "仕入 / 買掛金",
         explanation: "仕入は費用で借方、掛けなので買掛金が増加して貸方。"
       },
       {
         text: "売掛金120円を現金で回収した。",
-        choices: ["現金 / 売掛金", "売掛金 / 現金"],
+        choices: [
+          "現金 / 売掛金",
+          "売掛金 / 現金",
+          "現金 / 売上",
+          "受取利息 / 売掛金"
+        ],
         correct: "現金 / 売掛金",
         explanation: "現金が増加するので借方、売掛金が減少するので貸方。"
       },
       {
         text: "水道光熱費30円を現金で支払った。",
-        choices: ["水道光熱費 / 現金", "現金 / 水道光熱費"],
+        choices: [
+          "水道光熱費 / 現金",
+          "現金 / 水道光熱費",
+          "備品 / 現金",
+          "水道光熱費 / 買掛金"
+        ],
         correct: "水道光熱費 / 現金",
         explanation: "水道光熱費は費用なので借方、現金が減るので貸方。"
       }
@@ -202,34 +257,6 @@
 
       button.classList.add("selected");
     }
-
-    answerBtn.onclick = function () {
-      const q = questions[currentQuestionIndex];
-      const isCorrect = selectedChoice === q.correct;
-
-      if (isCorrect) {
-        score++;
-      }
-
-      resultEl.innerHTML = `
-        <p><strong>${isCorrect ? "正解！" : "不正解"}</strong></p>
-        <p>正しい答え：${q.correct}</p>
-        <p>${q.explanation}</p>
-      `;
-
-      if (currentQuestionIndex < questions.length - 1) {
-        answerBtn.textContent = "次の問題へ";
-        answerBtn.onclick = function () {
-          currentQuestionIndex++;
-          answerBtn.textContent = "回答する";
-          answerBtn.onclick = submitAnswer;
-          renderQuestion();
-        };
-      } else {
-        answerBtn.style.display = "none";
-        scoreEl.textContent = `終了！10問中 ${score} 問正解でした。`;
-      }
-    };
 
     function submitAnswer() {
       const q = questions[currentQuestionIndex];
